@@ -1,0 +1,37 @@
+{% extends "MyProgramApp/base.html" %}
+{% load static %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>{{ program.name }}</h2>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Тип профиля:</dt>
+            <dd class="col-sm-9">{{ program.get_program_type_display }}</dd>
+
+            <dt class="col-sm-3">Длительность:</dt>
+            <dd class="col-sm-9">{{ program.duration }} лет</dd>
+
+            <dt class="col-sm-3">Дата начала:</dt>
+            <dd class="col-sm-9">{{ program.start_date|date:"d.m.Y" }}</dd>
+
+            <dt class="col-sm-3">Статус:</dt>
+            <dd class="col-sm-9">
+                <span class="badge bg-{% if program.is_active %}success{% else %}secondary{% endif %}">
+                    {% if program.is_active %}Активен{% else %}Неактивен{% endif %}
+                </span>
+            </dd>
+
+            <dt class="col-sm-3">Описание:</dt>
+            <dd class="col-sm-9">{{ program.description|linebreaksbr }}</dd>
+        </dl>
+
+        <div class="d-flex gap-2">
+            <a href="{% url 'MyProgramApp:program_update' program.pk %}" class="btn btn-warning">Редактировать</a>
+            <a href="{% url 'MyProgramApp:program_delete' program.pk %}" class="btn btn-danger">Удалить</a>
+            <a href="{% url 'MyProgramApp:program_list' %}" class="btn btn-secondary">Назад к списку</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

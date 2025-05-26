@@ -1,0 +1,68 @@
+{% extends "DataBaseApp/base.html" %}
+{% load static %}
+{% block content %}
+    <h1>Мои сокурсники</h1>
+    <form method="get" class="filters mb-4">
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+                <input type="text" name="search" class="form-control" placeholder="Поиск по имени" value="{{ search_query }}">
+            </div>
+            <div class="col-auto">
+                <select name="sort" class="form-select" onchange="this.form.submit()">
+                    <option value="full_name" {% if sort == 'full_name' %}selected{% endif %}>По имени (А-Я)</option>
+                    <option value="-full_name" {% if sort == '-full_name' %}selected{% endif %}>По имени (Я-А)</option>
+                    <option value="email" {% if sort == 'email' %}selected{% endif %}>По email (А-Я)</option>
+                    <option value="-email" {% if sort == '-email' %}selected{% endif %}>По email (Я-А)</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Применить</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Фото</th>
+                    <th>ФИО</th>
+                    <th>Email</th>
+                    <th>Телефон</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for classmate in classmates %}
+                <tr>
+                    <td>
+                        {% if classmate.photo %}
+                            <img src="{{ classmate.photo.url }}"
+                                alt="{{ classmate.full_name }}"
+                                class="img-square"
+                                style="width: 50px; height: 50px; object-fit: cover;">
+                        {% else %}
+                            <div class="no-photo bg-secondary d-flex align-items-center justify-content-center"
+                                style="width: 50px; height: 50px;">
+                                <span class="text-white">Нет фото</span>
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>{{ classmate.full_name }}</td>
+                    <td>{{ classmate.email }}</td>
+                    <td>{{ classmate.phone|default:"-" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <style>
+        .no-photo {
+            font-size: 0.7rem;
+            text-align: center;
+        }
+        .table img {
+            object-fit: cover;
+        }
+    </style>
+{% endblock %}

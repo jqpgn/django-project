@@ -1,0 +1,77 @@
+{% extends "DataBaseApp/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Менеджмент образовательной программы</h1>
+
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h2>Академический руководитель</h2>
+        </div>
+        <div class="card-body">
+            {% if academic %}
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center">
+                    <img src="{{ academic.photo.url }}"
+                         alt="Фото {{ academic.full_name }}"
+                         class="img-fluid rounded-circle mb-3"
+                         style="max-width: 200px; height: 200px; object-fit: cover;">
+                </div>
+                <div class="col-md-9">
+                    <h3>{{ academic.full_name }}</h3>
+                    <p class="text-muted">
+                        <i class="bi bi-person-badge"></i> {{ academic.get_role_display }}
+                    </p>
+                    <p><i class="bi bi-envelope"></i> {{ academic.email }}</p>
+                    {% if academic.phone %}
+                    <p><i class="bi bi-telephone"></i> {{ academic.phone }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-warning">
+                Информация об академическом руководителе отсутствует
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            <h2>Менеджеры программы</h2>
+        </div>
+        <div class="card-body">
+            {% if other_managers %}
+            <div class="row">
+                {% for manager in other_managers %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="text-center mt-3">
+                            <img src="{{ manager.photo.url }}"
+                                 class="rounded-circle"
+                                 alt="Фото {{ manager.full_name }}"
+                                 style="width: 150px; height: 150px; object-fit: cover;">
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ manager.full_name }}</h5>
+                            <p class="text-muted">
+                                <i class="bi bi-person-badge"></i> {{ manager.get_role_display }}
+                            </p>
+                            <p class="card-text">
+                                <i class="bi bi-envelope"></i> {{ manager.email }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-warning">
+                Информация о менеджерах программы отсутствует
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "DataBaseApp/base.html" %}
+{% load static %}
+{% block content %}
+    {% if page.student_profile %}
+        <section class="student-profile">
+            <img src="{{ page.student_profile.photo.url }}" alt="{{ page.student_profile.full_name }}" width="150">
+            <h1>{{ page.student_profile.full_name }}</h1>
+            <p>Email: {{ page.student_profile.email }}</p>
+            <p>Телефон: {{ page.student_profile.phone }}</p>
+            <p>{{ page.student_profile.resume|linebreaksbr }}</p>
+            {% if page.student_profile.portfolio_link %}
+                <a href="{{ page.student_profile.portfolio_link }}"
+                  target="_blank"
+                  class="text-decoration-none">
+                    Портфолио
+                </a>
+            {% endif %}
+        </section>
+    {% endif %}
+
+    {% if page.program_info %}
+        <section class="program-info">
+            <h2>{{ page.program_info.title }}</h2>
+            <h2><a href="{{ page.program_info.program_link }}" target="_blank"
+                  class="text-decoration-none">Страница программы</a></h2>
+
+            <h3>Что я буду изучать:</h3>
+            <p>{{ page.program_info.curriculum|linebreaks }}</p>
+
+            <h3>Чему научусь:</h3>
+            <p>{{ page.program_info.skills|linebreaks }}</p>
+
+            <h3>Преимущества программы:</h3>
+            <p>{{ page.program_info.advantages|linebreaks }}</p>
+
+            <h3>Перспективы после обучения:</h3>
+            <p>{{ page.program_info.prospects|linebreaks }}</p>
+
+        </section>
+    {% endif %}
+{% endblock %}
